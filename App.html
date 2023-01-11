@@ -8,7 +8,14 @@
         --yellow-notion: #fff019;
         --white-notion: #f5f5f5;
       }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
+        border: 4px #fff019 solid;
         text-align: center;
         background: var(--black-notion);
         font-family: sans-serif;
@@ -20,10 +27,6 @@
         align-items: center;
         flex-wrap: wrap;
         height: 100vh;
-      }
-
-      .divborder{
-        border: 4px #fff019 solid;
       }
       h1 {
         color: var(--yellow-notion);
@@ -52,7 +55,7 @@
     </style>
   </head>
   <body>
-    <div class="divborder">
+    <div>
       <h1>Concurso Banco do Brasil</h1>
       <div id="clockdiv">
         <div>
