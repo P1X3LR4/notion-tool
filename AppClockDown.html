@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Digital Clock With Date</title>
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <style>
+
+      :root{
+        --primary: #ffd500;
+        --dark: #191919;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--dark);
+        border: 3px solid var(--primary);
+        border-radius: 5px;
+      }
+
+      .datetime {
+        color: #fff;
+        background: var(--dark);
+        font-family: "Segoe UI", sans-serif;
+        width: 100vw;
+      }
+      @media (min-width: 720px) {
+        .datetime {
+          display: flex;
+          flex-direction: row;
+          align-content: center;
+          align-items: center;
+          flex-grow: inherit;
+          justify-content: center;
+          flex-wrap: nowrap;
+        }
+        .blue-date,
+        .date {
+          font-size: 15pt !important;
+        }
+        .item {
+          flex: 1 0 auto;
+        }
+      }
+
+      .date {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 3px;
+      }
+
+      .blue-date {
+        color: var(--primary) !important;
+        font-size: 10pt;
+      }
+
+      .time {
+        font-size: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .time span:not(:last-child) {
+        position: relative;
+        margin: 0 6px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 3px;
+      }
+
+      .time #seconddowndiv {
+        background: var(--primary);
+        color: var(--dark);
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 9px;
+        padding: 0 5px;
+        border-radius: 3px;
+      }
+
+      #seconddowndiv,
+      #daydowndiv,
+      #hourdowndiv,
+      #minutedowndiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2%;
+      }
+
+      p{
+        font-size: 10pt;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body onload="initClock()">
+    <!--digital clock start-->
+    <div class="datetime">
+      <div class="time item">
+        <div id="daydowndiv">
+          <span id="daydown">0</span>
+          <p>DIAS</p>
+        </div>
+        <div id="hourdowndiv">
+          <span id="hourdown">00</span>
+          <p>HORAS</p>
+        </div>
+
+        <div id="minutedowndiv">
+          <span id="minutedown">00</span>
+          <p>MINUTOS</p>
+        </div>
+        <div id="seconddowndiv">
+          <span id="seconddown">00</span>
+          <p>SEGUNDOS</p>
+        </div>
+      </div>
+      <div class="date blue-date item">
+        <div class="date item">
+          <span id="dayname">Day</span>
+        </div>
+        <i class="uil uil-calendar-alt"></i>
+        <span id="daynum">00</span>
+        <span id="month">Month</span>
+        <span id="year">Year</span>
+      </div>
+    </div>
+    <!--digital clock end-->
+
+    <script type="text/javascript">
+      function updateClock() {
+
+        /**
+        **  👇Para alterar a data👇
+        **/
+        var deadline = new Date("april 31, 2023 07:00:00").getTime();
+
+        var nowt = new Date().getTime();
+        var t = deadline - nowt;
+        var daydown = Math.floor(t / (1000 * 60 * 60 * 24));
+        var hourdown = Math.floor(
+          (t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutedown = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+        var seconddown = Math.floor((t % (1000 * 60)) / 1000);
+
+        document.getElementById("daydown").innerHTML = daydown;
+        document.getElementById("hourdown").innerHTML = hourdown;
+        document.getElementById("minutedown").innerHTML = minutedown;
+        document.getElementById("seconddown").innerHTML = seconddown;
+
+        if (t < 0) {
+          clearInterval(x);
+          document.getElementById("daydown").innerHTML = "0";
+          document.getElementById("hourdown").innerHTML = "0";
+          document.getElementById("minutedown").innerHTML = "0";
+          document.getElementById("seconddown").innerHTML = "0";
+        }
+
+        var now = new Date();
+        var dname = now.getDay(),
+          mo = now.getMonth(),
+          dnum = now.getDate(),
+          yr = now.getFullYear();
+
+        Number.prototype.pad = function (digits) {
+          for (var n = this.toString(); n.length < digits; n = 0 + n);
+          return n;
+        };
+
+        var months = [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro",
+        ];
+        var week = [
+          "Domingo",
+          "Segunda-feira",
+          "Terça-feira",
+          "Quarta-feira",
+          "Quinta-feira",
+          "Sexta-feira",
+          "Sábado",
+        ];
+        var ids = ["dayname", "month", "daynum", "year"];
+        var values = [week[dname], months[mo], dnum.pad(2), yr];
+        for (var i = 0; i < ids.length; i++)
+          document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock() {
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+    </script>
+  </body>
+</html>
